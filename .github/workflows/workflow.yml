@@ -1,0 +1,29 @@
+name: Try to setup PubForth and run simple program
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+            path: example
+
+      - name: Setup PubForth
+        id: setup
+        uses: visualdoj/setup-pubforth@main
+
+      - name: Print PubForth version
+        working-directory: ${{ github.workspace }}/example
+        run: pubforth --version
+
+      - name: Print PubForth help
+        working-directory: ${{ github.workspace }}/example
+        run: pubforth --long-help
+
+      - name: Run program
+        working-directory: ${{ github.workspace }}/example
+        run: pubforth --experimental example.fs
