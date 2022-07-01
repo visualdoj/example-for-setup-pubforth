@@ -23,4 +23,4 @@ jobs:
         run: pubforth --experimental -e "1 2 3 . . ."
 
       - name: Run program
-        run: pubforth --experimental example.fs
+        run: pubforth example.fs
